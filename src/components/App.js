@@ -15,21 +15,12 @@ class App extends Component {
         '', '', '',
         '', '', '',
         '', '', ''
-      ],
-      winningCombos: [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8]
       ]
     };
 
     this.squareClick = this.squareClick.bind(this);
     this.definePlayer = this.definePlayer.bind(this);
+    this.defineWinner = this.defineWinner.bind(this);
   }
 
   definePlayer() {
@@ -51,6 +42,18 @@ class App extends Component {
     }
   }
 
+  defineWinner(player) {
+    if(player === 'XXX') {
+      alert('X wins!');
+      this.reset();
+    } else {
+      alert('O wins');
+      this.reset();
+    }
+
+
+  }
+
   squareClick(index) {
     this.definePlayer();
 
@@ -63,6 +66,13 @@ class App extends Component {
     }
 
     this.state.board.splice(index, 1, this.state.currentPlayer);
+
+    this.winningMove();
+
+
+  }
+
+  winningMove() {
     var board = this.state.board;
 
     var topRow = board[0]+board[1]+board[2];
@@ -75,30 +85,29 @@ class App extends Component {
     var rightDiag = board[2]+board[4]+board[6];
 
     if(topRow.match(/XXX|OOO/)) {
-      this.reset();
+      this.defineWinner(topRow);
     }
     if(middleRow.match(/XXX|OOO/)) {
-      return;
+      this.defineWinner(middleRow);
     }
     if(bottomRow.match(/XXX|OOO/)) {
-      return;
+      this.defineWinner(bottomRow);
     }
     if(topCol.match(/XXX|OOO/)) {
-      return;
+      this.defineWinner(topCol);
     }
     if(middleCol.match(/XXX|OOO/)) {
-      return;
+      this.defineWinner(middleCol);
     }
     if(bottomCol.match(/XXX|OOO/)) {
-      return;
+      this.defineWinner(bottomCol);
     }
     if(leftDiag.match(/XXX|OOO/)) {
-      return;
+      this.defineWinner(leftDiag);
     }
     if(rightDiag.match(/XXX|OOO/)) {
-      return;
+      this.defineWinner(rightDiag);
     }
-
   }
 
   reset() {
@@ -118,7 +127,7 @@ class App extends Component {
           <ResetButton onClick={this.reset.bind(this)} />
         </div>
         {this.state.board.map((cell, index) => {
-          return <Square key={index} cellId={index} onClick={this.squareClick.bind(this, index)} value={cell} />;
+          return <Square key={index} cellId={index}  onClick={this.squareClick.bind(this, index)} value={cell} />;
         })}
       </div>
     );
