@@ -50,25 +50,21 @@ class App extends Component {
       alert('O wins');
       this.reset();
     }
-
-
   }
 
   squareClick(index) {
-    this.definePlayer();
-
     const O_PLAYER = this.state.O_PLAYER;
     const X_PLAYER = this.state.X_PLAYER;
-
 
     if(this.state.board[index] === O_PLAYER || this.state.board[index] === X_PLAYER) {
       return;
     }
 
+    this.definePlayer();
+
     this.state.board.splice(index, 1, this.state.currentPlayer);
 
     this.winningMove();
-
 
   }
 
@@ -117,7 +113,7 @@ class App extends Component {
         '', '', '',
         '', '', ''
       ]
-    })
+    });
   }
 
   render() {
@@ -127,7 +123,7 @@ class App extends Component {
           <ResetButton onClick={this.reset.bind(this)} />
         </div>
         {this.state.board.map((cell, index) => {
-          return <Square key={index} cellId={index}  onClick={this.squareClick.bind(this, index)} value={cell} />;
+          return <Square key={index} cellId={index} onClick={this.squareClick.bind(this, index)} value={cell} />;
         })}
       </div>
     );
